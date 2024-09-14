@@ -323,6 +323,7 @@ int gettoken(char **ps, char *es, char **q, char **eq) // add herdoc
 	strcpy(whitespace, " \t\r\n\v");
 	strcpy(symbols, "<|>"); 
     s = *ps;
+    // printf("xx%s\n", s);
     while (s < es && strchr(whitespace, *s))
         s++;
     if (q)
@@ -357,21 +358,29 @@ int gettoken(char **ps, char *es, char **q, char **eq) // add herdoc
         ret = 'a';
         while(s < es && strchr(whitespace, *s))
           s++;
+        // printf("x1%s\n", *ps);
         if (s[0] == '\"')
         {
           s++;
           while(s < es && s[0] != '\"')
             s++;
+          s++;
+          // printf("%s\n", s);
         }
-        else
-        if (s[0] == '\'')
+        else if (s[0] == '\'')
         {
           s++;
           while(s < es && s[0] != '\'')
             s++;
+          s++;
         }
-        while (s < es && !strchr(whitespace, *s) && !strchr(symbols, *s))
+        else
+        // printf("x1%s\n", s);
+        {
+          while (s < es && s[0] != '\"' && s[0] != '\'' &&!strchr(whitespace, *s) && !strchr(symbols, *s))
             s++;
+        }
+        // printf("x2%s\n", s);
     }
     // printf("|%s|\n", s);
     if (eq)
@@ -445,18 +454,23 @@ struct cmd* parseexec(char **ps, char *es, struct heredoc **heredoc, int *last_e
   while(!peek(ps, es, "|")){
     if((tok=gettoken(ps, es, &q, &eq)) == 0)
       break;
+    // printf("x1%s\n", *ps);
     if (tok != 'a')
     {
 		*last_exit_status = 2;
         write(2, "bash: syntax error near unexpected token\n", 41);
         return NULL;
     }
+    // if (q == cmd->eargv[argc - 1])
+    //   q++; //here taha
     cmd->argv[argc] = q;
     cmd->eargv[argc] = eq;
+    // printf("%s\n", cmd->eargv[argc]);
     argc++;
     //if(argc >= MAXARGS)  // do we really need this
     //  panic("too many args");
     ret = parseredirs(ret, ps, es, heredoc, last_exit_status);
+    // printf("x2%s\n", *ps);
   }
   cmd->argv[argc] = 0;
   cmd->eargv[argc] = 0;
@@ -486,16 +500,44 @@ struct cmd* nulterminate(struct cmd *cmd)
   // struct listcmd *lcmd;
   struct pipecmd *pcmd;
   struct redircmd *rcmd;
+  // int j = 0;
 
   if (cmd == 0)
     return 0;
   if (cmd->type == EXEC) {
     ecmd = (struct execcmd*)cmd;
     i = 0;
+    // printf("|%s|\n", ecmd->argv[0]);
+    // printf("{%s}\n", ecmd->eargv[0]);
+    // printf("|%s|\n", ecmd->argv[1]);
+    // printf("{%s}\n", ecmd->eargv[1]);
+    // printf("|%s|\n", ecmd->argv[2]);
+    // printf("{%s}\n", ecmd->eargv[2]);
     while (ecmd->argv[i]) {
-      *ecmd->eargv[i] = 0;
+      // printf("[%s]\n", ecmd->argv[i]);
+      // printf("{%s}\n", ecmd->eargv[i]);
+      // *ecmd->eargv[i] = 0;
+      // j = 0;
+      // while (ecmd->argv[i][j] != ecmd->eargv[i])
+      ecmd->argv[i] = ft_substr(ecmd->argv[i], 0, ecmd->eargv[i] - ecmd->argv[i]);
+      // printf("{%s}\n", ecmd->argv[i]);
+      // printf("|%c|\n", ecmd->eargv[i][0]);
       i++;
+      
     }
+    // printf("|%s|\n", ecmd->argv[0]);
+    // printf("{%s}\n", ecmd->eargv[0]);
+    // printf("|%s|\n", ecmd->argv[1]);
+    // printf("{%s}\n", ecmd->eargv[1]);
+    // printf("|%s|\n", ecmd->argv[2]);
+    // printf("{%s}\n", ecmd->eargv[2]);
+    // i = 0;
+    // while (ecmd->argv[i]) {
+    //   printf("{%s}\n", ecmd->argv[i]);
+    //   // *ecmd->eargv[i] = 0;
+    //   // printf("{%s}\n", ecmd->eargv[i]);
+    //   i++;
+    // }
   }
   else if (cmd->type == REDIR) {
     rcmd = (struct redircmd*)cmd;

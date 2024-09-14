@@ -6,7 +6,7 @@
 /*   By: mrhelmy <mrhelmy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 14:55:09 by krazikho          #+#    #+#             */
-/*   Updated: 2024/09/14 12:23:45 by mrhelmy          ###   ########.fr       */
+/*   Updated: 2024/09/14 17:32:18 by mrhelmy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,14 @@ t_env *execute_builtin(t_env **envir, char **args, int *last_exit_status, t_expo
 	(void)last_exit_status;
 	if (!args || !args[0]) 
         return (*envir);
+
+	// printf("%s\n", args[0]);
+    // printf("%s\n", args[1]);
+    // printf("%s\n", args[2]);
 	count = count_args(args);
 	 modify_args(args, *envir);
+
+	 
 	if (ft_strcmp("echo", args[0])==true){
 		echo(args, *envir);
 		 *last_exit_status = 0; // assuming it succeed
