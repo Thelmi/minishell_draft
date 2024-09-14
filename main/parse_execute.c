@@ -56,8 +56,81 @@ void runcmd(t_main main, char **ev, t_env **envir, t_export **exp, int *last_exi
 	int saved_stdout = dup(STDOUT_FILENO);
 	int pipe_fd;
   char *tmp;
+  // t_heredoc *tmph = main.heredoc;
+  // t_heredoc *tmp2;
+  char *tmp3;
+  char *read = NULL;
+  int i;
+  static char *input;
+  char *tmp_input;
+  char *tmp_input2;
+  // t_heredoc *input;
 
   struct cmd *cmd = main.cmd;
+  if (!input)
+    input = NULL;
+  // tmp2 = main.heredoc;
+    while (main.heredoc) {
+        i = 0;
+        while (main.heredoc->argv[i] && main.heredoc->argv[i] != ' ')
+		{
+            i++;
+        }
+        tmp3 = ft_substr(main.heredoc->argv, 0, i);
+        if (tmp3 && tmp3[0] == '\"' && tmp3[ft_strlen(tmp3) - 1] == '\"')
+        {
+          tmp3 = ft_substr(main.heredoc->argv, 1, ft_strlen(tmp3) - 2);
+          free (tmp3);
+          tmp3 = tmp3;
+        } 
+        if (tmp3 && tmp3[0] == '\'' && tmp3[ft_strlen(tmp3) - 1] == '\'')
+        {
+          tmp3 = ft_substr(main.heredoc->argv, 1, ft_strlen(tmp3) - 2);
+          free (tmp3);
+          tmp3 = tmp3;
+        } 
+		 if (tmp3 == NULL) 
+		 {
+            perror("Error allocating memory for heredoc delimiter");
+            *last_exit_status = 1; // General error
+            return ;
+      }
+        while ((read = readline("> ")) != NULL) {
+          if (num_strncmp(read, tmp3) == 0) {
+              free(read); // Free the input string
+              break;
+          }
+          if (main.heredoc->next == NULL)
+          {
+            tmp_input = ft_strjoin(read, "\n");
+            // printf("|%s|", tmp_input);
+            // printf("|%s|", tmp_input);
+            // printf("|%s|", read);
+            // free(input);
+            if (!input)
+              tmp_input2 = tmp_input;
+            else
+            {
+              tmp_input2 = ft_strjoin(input, tmp_input);
+              // printf("|%s|", tmp_input2);
+              free(input);
+            }
+            if (input)
+              free(tmp_input);
+            input = tmp_input2;
+            // printf("|%s|", input);
+          }
+          free(read);
+        }
+        if (read == NULL) 
+        {
+          free(tmp3);
+          break;
+        }
+        free(tmp3);
+        main.heredoc = main.heredoc->next;
+    }
+  // printf("%s", input);
   // printf("Here\n");
   // print_tree(cmd);
 	if (cmd == NULL)
@@ -82,6 +155,23 @@ void runcmd(t_main main, char **ev, t_env **envir, t_export **exp, int *last_exi
 		remove_quotes(cmd);
         // printf("%s|\n", ecmd->argv[0]);
         // printf("%s|\n", ecmd->argv[1]);
+        // write (1, "yyyyyy\n", 7);
+        // printf("m1%s|\n", ecmd->argv[0]);
+        // printf("m2%s|\n", ecmd->argv[1]);
+        // printf("m3%s|\n", input);
+        // printf("%d\n", ft_strcmp(ecmd->argv[0], "cat"));
+        if (ft_strcmp(ecmd->argv[0], "cat") && ecmd->argv[1] == NULL)
+        {
+          // dup2(saved_stdin, 0);
+          // write (1, "XXXXXX\n", 7);
+          // printf("%s", input);
+          // return ;
+          write (1, input, ft_strlen(input));
+          if (input)
+            free (input);
+          input = NULL;
+          return ;
+        }
 		if (execve(ecmd->argv[0], ecmd->argv, ev) == -1)
 			execve(find_path(ecmd->argv[0], ev), ecmd->argv, ev); //you should free properly, make sure strjoin is not leaking
 		perror("execve failed");
