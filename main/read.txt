@@ -1,33 +1,6 @@
-UUUUU
-2
-3
-Makefile
-README.md
-builtins
-execute
-get_next_line.c
-get_next_line.o
-get_next_line_utils.c
-get_next_line_utils.o
-go.txt
-h.txt
-h.txty
-hello.txt
-helloo.txt
-hellos.txt
-herdoc.c
-hi.txt
-howareu.txt
-main.c
-main.o
-minishell
-minishell.h
-notes.txt
-parse_execute.c
-parse_execute.o
-read.txt
-utils
-w
-x.txt
-y.txt
-[?2004hminishell$ [Kminishell$ [Kminishell$ ^C[?2004l
+ls|pwd|""     pointer freed wasn't allocated
+export PATH=      zsh: illegal hardware instruction  ./minishell (if something is already there it should replace value)
+> " "     minishell(39209,0x110304dc0) malloc: *** set a breakpoint in malloc_error_break to debug
+ls>a>b     should only create a (if it has content it will be deleted using O_TRUNC) and redirects in last file (b in this case)
+<< ">"    whatever is after the heredoc should be a delimiter and not redirect in/out or whatever
+
