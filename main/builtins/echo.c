@@ -34,8 +34,8 @@ void echo(char **command, t_env *env){
             printf("%c", command[i][j]);
             j++;
         }
-        // if(command[i+1])
-        //     printf(" ");
+        if(command[i+1])
+            printf(" ");
         i++;
     }
     if(n_flag==false){
