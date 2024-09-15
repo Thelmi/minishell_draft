@@ -17,7 +17,7 @@ CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -lreadline
 
 
-NAME_SRCS = main.c execute/execute_command.c execute/execute_builtin.c execute/modify_args.c\
+NAME_SRCS = main.c signals.c execute/execute_command.c execute/execute_builtin.c execute/modify_args.c\
 			utils/string_functions.c utils/env_related_utils.c utils/export_related_utils.c utils/free.c utils/cd_utils.c utils/echo_utils.c\
 			./builtins/pwd.c ./builtins/exit_builtin.c ./builtins/env.c ./builtins/export_no_args.c ./builtins/echo.c\
 			./builtins/export_with_args.c ./builtins/unset.c  ./builtins/cd.c\
