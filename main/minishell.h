@@ -25,8 +25,8 @@
 #include <time.h>
 #include <sys/wait.h>
 #include <limits.h>
-
-
+#include <signal.h>
+#include <termios.h>
 
 #define BUFFER_SIZE 1
 // Our environment struct
@@ -207,6 +207,9 @@ int     gnl_free_str(char **str);
 char	*gnl_strjoin(char *s1, char *s2);
 
 void	builtin_exit(char **args, int *last_exit_status);
-
+//signals
+void sigint_handler(int sig);
+void sigquit_handler(int sig);
+void configure_terminal_behavior();
 
 #endif
