@@ -1,0 +1,9 @@
+
+1) Exit status
+
+3) Organizing files, and use libft function
+
+3) managing leaks
+
+4) Norminette (arguements, variable and amount of lines)
+
