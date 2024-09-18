@@ -1,0 +1,10 @@
+ls ">" hello && << ">" shouldnt create  " file
+exit last status for int in the child process // 
+
+Handling int max in exit //
+$? in echo // 
+
+Organizing && using libft, rather than forbidden functions
+managing leaks
+testing cases (using tester)
+norminatting
