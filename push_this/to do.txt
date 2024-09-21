@@ -1,0 +1,40 @@
+1. Modify env going to exeve
+2. Update env & export, and modify export (one last export modificated)
+3. Modify echo (spaces) - echo abc"efg" - should not have spaces between c & e
+4. Check multiple redirections
+5. Expand variables for all caeses, not only echo - expr $? + $?
+6. Check general leaks - step 1
+7. Malloc protection everywhere (when building the tree specifically)
+8. Check <><, and pipes empty left/right
+9. Take care of unintialized values/variables
+10. check cat function/leaks - cat alone - cat with heredoc
+11. stop sigfault with """
+12. sigfaults (fsanatizer), errors, mnemory leaks, fd leaks, norminnatte
+
+###############################################################################
+
+1. Update env & export, and modify export (one last export modificated) - just check
+2. Malloc protection everywhere (when building the tree specifically)
+3. Take care of unintialized values/variables
+4. fd leaks
+5. cat | cat | ls
+6. Expand variables for all cases, not only echo - expr $? + $?
+7. check signals in general + with cat
+8. sigfaults (fsanatizer), errors, memory leaks, fd leaks, norminnatte
+
+###############################################################################
+
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./minishell 
+
+###############################################################################
+
+
+1. Update env & export, and modify export (one last export modificated) - just check //
+2. Malloc protection everywhere (when building the tree specifically)
+3. Take care of unintialized values/variables
+4. fd leaks
+5. cat | cat | ls
+
+6. Expand variables for all cases, not only echo - expr $? + $?
+7. check signals in general + with cat
+8. sigfaults (fsanatizer), errors, memory leaks, fd leaks, norminnatte
